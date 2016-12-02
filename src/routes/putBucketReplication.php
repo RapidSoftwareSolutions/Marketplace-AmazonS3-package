@@ -19,7 +19,7 @@ $app->post('/api/AmazonS3/putBucketReplication', function ($request, $response, 
     ]);
     
     $body['Bucket'] = $post_data['args']['bucketName'];
-    $body['ReplicationConfiguration']['Rules'] = $post_data['args']['rules'];
+    $body['ReplicationConfiguration'] = $post_data['args']['rules'];
     
     if(!empty($post_data['args']['role'])) {
         $body['ReplicationConfiguration']['Role'] = $post_data['args']['role'];

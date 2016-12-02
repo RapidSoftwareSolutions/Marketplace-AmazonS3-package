@@ -19,7 +19,7 @@ $app->post('/api/AmazonS3/putBucketCORS', function ($request, $response, $args) 
     ]);
     
     $body['Bucket'] = $post_data['args']['bucketName'];
-    $body['CORSConfiguration']['CORSRules'] = $post_data['args']['CORSRules'];
+    $body['CORSConfiguration'] = $post_data['args']['CORSRules'];
     
     try {
         $res = $client->putBucketCors($body)->toArray();

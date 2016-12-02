@@ -267,9 +267,43 @@ This endpoint allows to set the permissions on an existing bucket using access c
 
 #### grants format
 ```json
-
 {
-
+  "Grants": [
+    {
+      "Grantee": {
+        "DisplayName": "string",
+        "EmailAddress": "string",
+        "ID": "string",
+        "Type": "CanonicalUser"|"AmazonCustomerByEmail"|"Group",
+        "URI": "string"
+      },
+      "Permission": "FULL_CONTROL"|"WRITE"|"WRITE_ACP"|"READ"|"READ_ACP"
+    }
+    ...
+  ],
+  "Owner": {
+    "DisplayName": "string",
+    "ID": "string"
+  }
+}
+```
+#### grants example
+```json
+{  
+    "Grants":[  
+        {  
+            "Grantee":{  
+                "DisplayName":"test.test",
+                "ID":"qwa6fbad701127bcd900cd5820ce33ef31962a7fc0fabd1bf07432c1736af35d",
+                "Type":"CanonicalUser"
+            },
+            "Permission":"READ"
+        }
+    ],
+    "Owner":{  
+        "DisplayName":"test.test",
+        "ID":"qwa6fbad701127bcd900cd5820ce33ef31962a7fc0fabd1bf07432c1736af35d"
+    }
 }
 ```
 
@@ -286,9 +320,36 @@ Sets the cors configuration for your bucket. If the configuration exists, Amazon
 
 #### CORSRules format
 ```json
-
 {
-
+  "CORSRules": [
+    {
+      "AllowedHeaders": ["string", ...],
+      "AllowedMethods": ["string", ...],
+      "AllowedOrigins": ["string", ...],
+      "ExposeHeaders": ["string", ...],
+      "MaxAgeSeconds": integer
+    }
+    ...
+  ]
+}
+```
+#### CORSRules example
+```json
+{  
+    "CORSRules":[  
+        {  
+            "AllowedHeaders":[  
+                "Authorization"
+            ],
+            "AllowedMethods":[  
+                "GET"
+            ],
+            "AllowedOrigins":[  
+                "*"
+            ],
+            "MaxAgeSeconds":3000
+        }
+    ]
 }
 ```
 <a name="putBucketLifecycleConfiguration"/>
@@ -305,9 +366,87 @@ Creates a new lifecycle configuration for the bucket or replaces an existing lif
 
 #### rules format
 ```json
-
 {
-
+  "Rules": [
+    {
+      "Expiration": {
+        "Date": timestamp,
+        "Days": integer,
+        "ExpiredObjectDeleteMarker": true|false
+      },
+      "ID": "string",
+      "Prefix": "string",
+      "Filter": {
+        "Prefix": "string",
+        "Tag": {
+          "Key": "string",
+          "Value": "string"
+        },
+        "And": {
+          "Prefix": "string",
+          "Tags": [
+            {
+              "Key": "string",
+              "Value": "string"
+            }
+            ...
+          ]
+        }
+      },
+      "Status": "Enabled"|"Disabled",
+      "Transitions": [
+        {
+          "Date": timestamp,
+          "Days": integer,
+          "StorageClass": "GLACIER"|"STANDARD_IA"
+        }
+        ...
+      ],
+      "NoncurrentVersionTransitions": [
+        {
+          "NoncurrentDays": integer,
+          "StorageClass": "GLACIER"|"STANDARD_IA"
+        }
+        ...
+      ],
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": integer
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": integer
+      }
+    }
+    ...
+  ]
+}
+```
+#### rules example
+```json
+{
+    "Rules": [
+        {
+            "ID": "Move rotated logs to Glacier",
+            "Prefix": "rotated/",
+            "Status": "Enabled",
+            "Transitions": [
+                {
+                    "Date": "2015-11-10T00:00:00.000Z",
+                    "StorageClass": "GLACIER"
+                }
+            ]
+        },
+        {
+            "Status": "Enabled",
+            "Prefix": "",
+            "NoncurrentVersionTransitions": [
+                {
+                    "NoncurrentDays": 2,
+                    "StorageClass": "GLACIER"
+                }
+            ],
+            "ID": "Move old versions to Glacier"
+        }
+    ]
 }
 ```
 
@@ -324,9 +463,32 @@ This endpoint allows to add to or replace a policy on a bucket. If the bucket al
 
 #### policy format
 ```json
-
 {
-
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Principal": "*",
+         "Action": "s3:GetObject",
+         "Resource": "arn:aws:s3:::MyBucket/*"
+      },
+      {
+         "Effect": "Deny",
+         "Principal": "*",
+         "Action": "s3:GetObject",
+         "Resource": "arn:aws:s3:::MyBucket/MySecretFolder/*"
+      },
+      {
+         "Effect": "Allow",
+         "Principal": {
+            "AWS": "arn:aws:iam::123456789012:root"
+         },
+         "Action": [
+            "s3:DeleteObject",
+            "s3:PutObject"
+         ],
+         "Resource": "arn:aws:s3:::MyBucket/*"
+      }
+   ]
 }
 ```
 
@@ -344,11 +506,39 @@ This endpoint allows to set the logging parameters for a bucket and to specify p
 | targetPrefix| String     | Optional: This element lets you specify a prefix for the keys that the log files will be stored under.
 
 #### targetGrants format
+```
+[
+      {
+        "Grantee": {
+          "DisplayName": "string",
+          "EmailAddress": "string",
+          "ID": "string",
+          "Type": "CanonicalUser"|"AmazonCustomerByEmail"|"Group",
+          "URI": "string"
+        },
+        "Permission": "FULL_CONTROL"|"READ"|"WRITE"
+      }
+      ...
+]
+```
+#### targetGrants example
 ```json
-
-{
-
-}
+[
+      {
+        "Grantee": {
+          "Type": "AmazonCustomerByEmail",
+          "EmailAddress": "user@example.com"
+        },
+        "Permission": "FULL_CONTROL"
+      },
+      {
+        "Grantee": {
+          "Type": "Group",
+          "URI": "http://acs.amazonaws.com/groups/global/AllUsers"
+        },
+        "Permission": "READ"
+      }
+]
 ```
 
 ## AmazonS3.putBucketNotificationConfiguration
@@ -361,15 +551,74 @@ This operation replaces the existing notification configuration with the configu
 | region                      | String     | Required: Region.
 | bucketName                  | String     | Required: The name of bucket.
 | lambdaFunctionConfigurations| JSON       | Optional: Array of objects. Container for specifying the AWS Lambda notification configuration. See README for more information.
-| queueConfigurations         | String     | Optional: Array of objects. Container for specifying the SQS queue configuration for the notification. You can add one or more of these queue configurations, each identifying one or more event types. See README for more information.
-| topicConfigurations         | String     | Optional: Array of objects. Container for specifying an SNS topic configuration for the notification. See README for more information.
+| queueConfigurations         | JSON       | Optional: Array of objects. Container for specifying the SQS queue configuration for the notification. You can add one or more of these queue configurations, each identifying one or more event types. See README for more information.
+| topicConfigurations         | JSON       | Optional: Array of objects. Container for specifying an SNS topic configuration for the notification. See README for more information.
 
 #### lambdaFunctionConfigurations format
-```json
-
-{
-
-}
+```
+[
+    {
+      "Id": "string",
+      "LambdaFunctionArn": "string",
+      "Events": ["s3:ReducedRedundancyLostObject"|"s3:ObjectCreated:*"|"s3:ObjectCreated:Put"|"s3:ObjectCreated:Post"|"s3:ObjectCreated:Copy"|"s3:ObjectCreated:CompleteMultipartUpload"|"s3:ObjectRemoved:*"|"s3:ObjectRemoved:Delete"|"s3:ObjectRemoved:DeleteMarkerCreated", ...],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            {
+              "Name": "prefix"|"suffix",
+              "Value": "string"
+            }
+            ...
+          ]
+        }
+      }
+    }
+    ...
+]
+```
+#### queueConfigurations format
+```
+[
+    {
+      "Id": "string",
+      "QueueArn": "string",
+      "Events": ["s3:ReducedRedundancyLostObject"|"s3:ObjectCreated:*"|"s3:ObjectCreated:Put"|"s3:ObjectCreated:Post"|"s3:ObjectCreated:Copy"|"s3:ObjectCreated:CompleteMultipartUpload"|"s3:ObjectRemoved:*"|"s3:ObjectRemoved:Delete"|"s3:ObjectRemoved:DeleteMarkerCreated", ...],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            {
+              "Name": "prefix"|"suffix",
+              "Value": "string"
+            }
+            ...
+          ]
+        }
+      }
+    }
+    ...
+]
+```
+#### topicConfigurations format
+```
+[
+    {
+      "Id": "string",
+      "TopicArn": "string",
+      "Events": ["s3:ReducedRedundancyLostObject"|"s3:ObjectCreated:*"|"s3:ObjectCreated:Put"|"s3:ObjectCreated:Post"|"s3:ObjectCreated:Copy"|"s3:ObjectCreated:CompleteMultipartUpload"|"s3:ObjectRemoved:*"|"s3:ObjectRemoved:Delete"|"s3:ObjectRemoved:DeleteMarkerCreated", ...],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            {
+              "Name": "prefix"|"suffix",
+              "Value": "string"
+            }
+            ...
+          ]
+        }
+      }
+    }
+    ...
+]
 ```
 
 ## AmazonS3.putBucketReplication
@@ -385,10 +634,33 @@ Amazon S3 stores the configuration in the replication subresource associated wit
 | role      | String     | Optional: Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
 
 #### rules format
-```json
-
+```
+"Rules": [
+    {
+      "ID": "string",
+      "Prefix": "string",
+      "Status": "Enabled"|"Disabled",
+      "Destination": {
+        "Bucket": "string",
+        "StorageClass": "STANDARD"|"REDUCED_REDUNDANCY"|"STANDARD_IA"
+      }
+    }
+    ...
+]
+```
+#### rules example
+```
 {
-	
+  "Rules": [
+    {
+      "Prefix": "",
+      "Status": "Enabled",
+      "Destination": {
+        "Bucket": "arn:aws:s3:::my-bucket-backup",
+        "StorageClass": "STANDARD"
+      }
+    }
+  ]
 }
 ```
 
@@ -404,11 +676,17 @@ This endpoint allows to add a set of tags to an existing bucket.
 | tagSet    | JSON       | Required: Array of objects. Container for a set of tags See README for more information.
 
 #### tagSet format
-```json
-
-{
-
-}
+```
+[{Key=string,Value=string},{Key=string,Value=string},...]
+```
+#### tagSet example
+```
+[  
+    {  
+        "Key":"new tag",
+        "Value":"tag_value"
+    }
+]
 ```
 
 ## AmazonS3.putBucketRequestPayment
@@ -453,10 +731,37 @@ This endpoint allows to set the configuration of the website that is specified.
 | routingRules    | JSON       | Optional: Array of objects. Container for a collection of RoutingRule elements. See README for more details.
 
 #### routingRules format
-```json
-
+```
+"RoutingRules": [
+    {
+      "Condition": {
+        "HttpErrorCodeReturnedEquals": "string",
+        "KeyPrefixEquals": "string"
+      },
+      "Redirect": {
+        "HostName": "string",
+        "HttpRedirectCode": "string",
+        "Protocol": "http"|"https",
+        "ReplaceKeyPrefixWith": "string",
+        "ReplaceKeyWith": "string"
+      }
+    }
+    ...
+]
+```
+#### routingRules example
+```
 {
-
+  "RoutingRules": [
+    {
+      "Condition": {
+        "KeyPrefixEquals": "docs"
+      },
+      "Redirect": {
+        "ReplaceKeyPrefixWith": "documents"
+      }
+    }
+  ]
 }
 ```
 
@@ -568,7 +873,7 @@ This endpoint allows to add an object to a bucket.
 | grantRead              | String     | Optional: Allows grantee to read the object data and its metadata. You specify each grantee as a type=value pair, where the type can be one of the following: emailAddress – if value specified is the email address of an AWS account; id – if value specified is the canonical user ID of an AWS account; uri – if granting permission to a predefined group. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantReadACP           | String     | Optional: Allows grantee to read the object ACL. You specify each grantee as a type=value pair, where the type can be one of the following: emailAddress – if value specified is the email address of an AWS account; id – if value specified is the canonical user ID of an AWS account; uri – if granting permission to a predefined group. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantWriteACP          | String     | Optional: Allows grantee to write the ACL for the applicable object. You specify each grantee as a type=value pair, where the type can be one of the following: emailAddress – if value specified is the email address of an AWS account; id – if value specified is the canonical user ID of an AWS account; uri – if granting permission to a predefined group. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
-| metadata               | JSON       | Optional: Array. A map of metadata to store with the object in S3. Example: ['<string>', ...]
+| metadata               | JSON       | Optional: Array of strings. A map of metadata to store with the object in S3. Example: ['<string>', ...]
 | SSECustomerAlgorithm   | String     | Optional: Specifies the algorithm to use to when encrypting the object. Valid Value: AES256
 | SSECustomerKey         | String     | Optional: Specifies the customer-provided base64-encoded encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
 | SSECustomerKeyMD5      | String     | Optional: Specifies the base64-encoded 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
@@ -580,10 +885,7 @@ This endpoint allows to add an object to a bucket.
 
 #### metadata format
 ```json
-
-{
-
-}
+['meta1', 'meta2']
 ```
 
 ## AmazonS3.putObjectACL
@@ -606,10 +908,44 @@ This endpoint allows to set the access control list (ACL) permissions for an obj
 | versionId       | String     | Optional: Version of the object whose ACL is being set.
 
 #### grants format
-```json
-
+```
 {
-
+  "Grants": [
+    {
+      "Grantee": {
+        "DisplayName": "string",
+        "EmailAddress": "string",
+        "ID": "string",
+        "Type": "CanonicalUser"|"AmazonCustomerByEmail"|"Group",
+        "URI": "string"
+      },
+      "Permission": "FULL_CONTROL"|"WRITE"|"WRITE_ACP"|"READ"|"READ_ACP"
+    }
+    ...
+  ],
+  "Owner": {
+    "DisplayName": "string",
+    "ID": "string"
+  }
+}
+```
+#### grants example
+```json
+{
+  "Grants": [
+    {
+      "Grantee": {
+        "DisplayName": "test.test"
+        "Type": "Group",
+        "URI": "http://acs.amazonaws.com/groups/global/AllUsers"
+      },
+      "Permission": "READ"
+    }
+  ],
+  "Owner": {
+    "DisplayName": "test.test",
+    "ID": "qwa6fbad701127bcd900cd5820ce33ef31962a7fc0fabd1bf07432c1736af35d"
+  }
 }
 ```
 
@@ -680,10 +1016,7 @@ This operation initiates a multipart upload and returns an upload ID. This uploa
 
 #### metadata format
 ```json
-
-{
-
-}
+['meta1', 'meta2']
 ```
 
 ## AmazonS3.uploadPart
@@ -746,11 +1079,31 @@ This endpoint allows to complete a multipart upload by assembling previously upl
 | uploadId  | String     | Required: Upload ID identifying the multipart upload whose part is being uploaded.
 
 #### parts format
+```
+[
+    {
+      "ETag": "string",
+      "PartNumber": integer
+    }
+    ...
+]
+```
+#### parts example
 ```json
-
-{
-
-}
+[
+    {
+      "ETag": "e868e0f4719e394144ef36531ee6824c",
+      "PartNumber": 1
+    },
+    {
+      "ETag": "6bb2b12753d66fe86da4998aa33fffb0",
+      "PartNumber": 2
+    },
+    {
+      "ETag": "d0a0112e841abec9c9ec83406f0159c8",
+      "PartNumber": 3
+    }
+]
 ```
 
 ## AmazonS3.abortMultipartUpload
@@ -809,6 +1162,24 @@ This operation enables you to delete multiple objects from a bucket using a sing
 | MFA       | String     | Optional: The value is the concatenation of the authentication device's serial number, a space, and the value displayed on your authentication device. Default: None. Condition: Required to permanently delete a versioned object if versioning is configured with MFA Delete enabled.
 | quiet     | String     | Optional: Element to enable quiet mode for the request. When you add this element, you must set its value to true. true || false
 
+#### objects format
+```
+[
+    {
+      "Key": "string",
+      "VersionId": "string"
+    }
+    ...
+]
+```
+#### objects example
+```json
+[
+    {
+      "Key": "test1.txt"
+    }
+]
+```
 
 ## AmazonS3.deleteBucketWebsite
 This operation removes the website configuration from the bucket.

@@ -1093,12 +1093,12 @@
         },
         {
           "name": "queueConfigurations",
-          "type": "String",
+          "type": "JSON",
           "info": "Optional: Array of objects. Container for specifying the SQS queue configuration for the notification. You can add one or more of these queue configurations, each identifying one or more event types. See README for more information."
         },
         {
           "name": "topicConfigurations",
-          "type": "String",
+          "type": "JSON",
           "info": "Optional: Array of objects. Container for specifying an SNS topic configuration for the notification. See README for more information."
         }
       ],
@@ -1714,7 +1714,7 @@
         },
         {
           "name": "objectBody",
-          "type": "File",
+          "type": "String",
           "info": "Required: File to be uploaded to the bucket."
         },
         {
@@ -1780,7 +1780,7 @@
         {
           "name": "metadata",
           "type": "JSON",
-          "info": "Optional: Array. A map of metadata to store with the object in S3. Example: ['<string>', ...]"
+          "info": "Optional: Array of strings. A map of metadata to store with the object in S3. Example: ['<string>', ...]"
         },
         {
           "name": "SSECustomerAlgorithm",
@@ -2238,7 +2238,7 @@
         },
         {
           "name": "uploadBody",
-          "type": "File",
+          "type": "String",
           "info": "Required: File to be uploaded."
         },
         {

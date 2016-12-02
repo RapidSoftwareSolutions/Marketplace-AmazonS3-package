@@ -30,7 +30,7 @@ $app->post('/api/AmazonS3/putBucketWebsite', function ($request, $response, $arg
         $body['WebsiteConfiguration']['RedirectAllRequestsTo']['Protocol'] = $post_data['args']['redirectProtocol']; 
     }
     if(!empty($post_data['args']['routingRules'])) {
-        $body['WebsiteConfiguration']['RoutingRules'] = $post_data['args']['routingRules']; 
+        $body['WebsiteConfiguration'] = $post_data['args']['routingRules']; 
     }
     
     try {

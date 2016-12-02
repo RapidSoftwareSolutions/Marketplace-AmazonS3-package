@@ -19,7 +19,7 @@ $app->post('/api/AmazonS3/putBucketLifecycleConfiguration', function ($request, 
     ]);
     
     $body['Bucket'] = $post_data['args']['bucketName'];
-    $body['LifecycleConfiguration']['Rules'] = $post_data['args']['rules'];
+    $body['LifecycleConfiguration'] = $post_data['args']['rules'];
     
     try {
         $res = $client->putBucketLifecycleConfiguration($body)->toArray();

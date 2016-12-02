@@ -20,7 +20,7 @@ $app->post('/api/AmazonS3/putObjectACL', function ($request, $response, $args) {
     
     $body['Bucket'] = $post_data['args']['bucketName'];
     $body['Key'] = $post_data['args']['objectName'];
-    $body['AccessControlPolicy']['Grants'] = $post_data['args']['grants'];
+    $body['AccessControlPolicy'] = $post_data['args']['grants'];
     if(!empty($post_data['args']['acl'])) {
         $body['ACL'] = $post_data['args']['acl'];
     }

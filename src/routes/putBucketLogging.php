@@ -20,6 +20,7 @@ $app->post('/api/AmazonS3/putBucketLogging', function ($request, $response, $arg
     
     $body['Bucket'] = $post_data['args']['bucketName'];
     
+    $data = [];
     $data['TargetGrants'] = $post_data['args']['targetGrants'];
     if(!empty($post_data['args']['targetBucket'])) {
         $data['TargetBucket'] = $post_data['args']['targetBucket'];
