@@ -155,7 +155,7 @@ This endpoint returns a list of metadata about all of the versions of objects in
 | keyMarker      | String     | Optional: Specifies the key in the bucket that you want to start listing from. Also, see version-id-marker.
 | maxKeys        | String     | Optional: Sets the maximum number of keys returned in the response body. The response might contain fewer keys, but will never contain more. Default: 1000
 | prefix         | String     | Optional: Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. Also, see delimiter.
-| versionIdMarker| String     | Optional: Specifies the object version you want to start listing from. Also, see key-marker. Valid Values: Valid version ID | Default
+| versionIdMarker| String     | Optional: Specifies the object version you want to start listing from. Also, see key-marker. Valid Values: Valid version ID \| Default
 
 
 ## AmazonS3.getBucketRequestPayment
@@ -228,7 +228,7 @@ This endpoint allows to create a new bucket
 | region          | String     | Required: Region.
 | bucketName      | String     | Required: The name of new bucket.
 | bucketRegion    | String     | Required: The region of new bucket.
-| cannedAcl       | String     | Optional: The canned ACL to apply to the bucket you are creating. Valid Values: private | public-read | public-read-write | aws-exec-read | authenticated-read | bucket-owner-read | bucket-owner-full-control. Format: value1|value2|...
+| cannedAcl       | String     | Optional: The canned ACL to apply to the bucket you are creating. Valid Values: private \| public-read \| public-read-write \| aws-exec-read \| authenticated-read \| bucket-owner-read \| bucket-owner-full-control. Format: value1\|value2\|...
 | grantFullControl| String     | Optional: Allows grantee the READ, WRITE, READ_ACP, and WRITE_ACP permissions on the bucket. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantRead       | String     | Optional: Allows grantee to list the objects in the bucket. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantReadACP    | String     | Optional: Allows grantee to read the bucket ACL. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
@@ -258,7 +258,7 @@ This endpoint allows to set the permissions on an existing bucket using access c
 | region          | String     | Required: Region.
 | bucketName      | String     | Required: The name of bucket.
 | grants          | JSON       | Required: Array of json objects. The array of grantees. See README for more details.
-| cannedAcl       | String     | Optional: The canned ACL to apply to the bucket you are creating. Valid Values: private | public-read | public-read-write | authenticated-read. Default: private. Format: value1|value2|...
+| cannedAcl       | String     | Optional: The canned ACL to apply to the bucket you are creating. Valid Values: private \| public-read \| public-read-write \| authenticated-read. Default: private. Format: value1\|value2\|...
 | grantFullControl| String     | Optional: Allows the specified grantee(s) the READ, WRITE, READ_ACP, and WRITE_ACP permissions on the bucket. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantRead       | String     | Optional: Allows the specified grantee(s) to list the objects in the bucket. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 | grantReadACP    | String     | Optional: Allows the specified grantee(s) to read the bucket ACL. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
@@ -266,7 +266,7 @@ This endpoint allows to set the permissions on an existing bucket using access c
 | grantWriteACP   | String     | Optional: Allows the specified grantee(s) to write the ACL for the applicable bucket. Default: None. Example: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
 
 #### grants format
-```json
+```
 {
   "Grants": [
     {
@@ -318,7 +318,7 @@ Sets the cors configuration for your bucket. If the configuration exists, Amazon
 | bucketName| String     | Required: The name of bucket.
 | CORSRules | JSON       | Required: Array of json objects. The array of CORSRules. See README for more details.
 
-#### CORSRules format
+#### CORSRules
 ```json
 {
   "CORSRules": [
@@ -364,7 +364,7 @@ Creates a new lifecycle configuration for the bucket or replaces an existing lif
 | bucketName| String     | Required: The name of bucket.
 | rules     | JSON       | Required: Array of json objects. The lifecycle configuration consisting of one or more rules. See README for more details.
 
-#### rules format
+#### rules
 ```json
 {
   "Rules": [
@@ -649,7 +649,7 @@ Amazon S3 stores the configuration in the replication subresource associated wit
 ]
 ```
 #### rules example
-```
+```json
 {
   "Rules": [
     {
@@ -680,7 +680,7 @@ This endpoint allows to add a set of tags to an existing bucket.
 [{Key=string,Value=string},{Key=string,Value=string},...]
 ```
 #### tagSet example
-```
+```json
 [  
     {  
         "Key":"new tag",
@@ -750,7 +750,7 @@ This endpoint allows to set the configuration of the website that is specified.
 ]
 ```
 #### routingRules example
-```
+```json
 {
   "RoutingRules": [
     {
@@ -884,7 +884,7 @@ This endpoint allows to add an object to a bucket.
 | websiteRedirectLocation| String     | Optional: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL.
 
 #### metadata format
-```json
+```
 ['meta1', 'meta2']
 ```
 
@@ -935,7 +935,7 @@ This endpoint allows to set the access control list (ACL) permissions for an obj
   "Grants": [
     {
       "Grantee": {
-        "DisplayName": "test.test"
+        "DisplayName": "test.test",
         "Type": "Group",
         "URI": "http://acs.amazonaws.com/groups/global/AllUsers"
       },
@@ -960,7 +960,7 @@ This endpoint allows to create a copy of an object that is already stored in Ama
 | bucketName                    | String     | Required: The name of bucket.
 | objectName                    | String     | Required: The name of the source bucket and key name of the source object to be copied, separated by a slash (/).
 | copySource                    | String     | Required: The name of the source bucket and key name of the source object, separated by a slash (/).
-| acl                           | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private | public-read | public-read-write | aws-exec-read | authenticated-read | bucket-owner-read | bucket-owner-full-control
+| acl                           | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private \| public-read \| public-read-write \| aws-exec-read \| authenticated-read \| bucket-owner-read \| bucket-owner-full-control
 | copySourceIfMatch             | String     | Optional: Copies the object if its entity tag (ETag) matches the specified tag; otherwise, the request returns a 412 HTTP status code error (failed precondition).
 | copySourceIfModifiedSince     | String     | Optional: Copies the object if it has been modified since the specified time; otherwise, the request returns a 412 HTTP status code error (failed condition).
 | copySourceIfNoneMatch         | String     | Optional: Copies the object if its entity tag (ETag) is different than the specified ETag; otherwise, the request returns a 412 HTTP status code error (failed precondition).
@@ -977,9 +977,9 @@ This endpoint allows to create a copy of an object that is already stored in Ama
 | SSECustomerKeyMD5             | String     | Optional: Specifies the base64-encoded 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
 | SSEKMSKeyId                   | String     | Optional: If the x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
 | serverSideEncryption          | String     | Optional: Specifies a server-side encryption algorithm to use when Amazon S3 creates an object. Valid Value: aws:kms, AES256
-| storageClass                  | String     | Optional: If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes. Valid Values: STANDARD | STANDARD_IA | REDUCED_REDUNDANCY
-| metadataDirective             | String     | Optional: Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request. Default: COPY. Valid values: COPY | REPLACE
-| taggingDirective              | String     | Optional: Specifies whether the object tags are copied from the source object or replaced with tags provided in the request. Default: COPY. Valid values: COPY | REPLACE
+| storageClass                  | String     | Optional: If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes. Valid Values: STANDARD \| STANDARD_IA \| REDUCED_REDUNDANCY
+| metadataDirective             | String     | Optional: Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request. Default: COPY. Valid values: COPY \| REPLACE
+| taggingDirective              | String     | Optional: Specifies whether the object tags are copied from the source object or replaced with tags provided in the request. Default: COPY. Valid values: COPY \| REPLACE
 | websiteRedirectLocation       | String     | Optional: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
 
 
@@ -993,7 +993,7 @@ This operation initiates a multipart upload and returns an upload ID. This uploa
 | region                 | String     | Required: Region.
 | bucketName             | String     | Required: The name of bucket.
 | objectName             | String     | Required: The name of the object to be retrieved.
-| acl                    | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private | public-read | public-read-write | aws-exec-read | authenticated-read | bucket-owner-read | bucket-owner-full-control
+| acl                    | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private \| public-read \| public-read-write \| aws-exec-read \| authenticated-read \| bucket-owner-read \| bucket-owner-full-control
 | cacheControl           | String     | Optional: Can be used to specify caching behavior along the request/reply chain. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
 | contentDisposition     | String     | Optional: Specifies presentational information for the object. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
 | contentEncoding        | String     | Optional: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11.
@@ -1011,11 +1011,11 @@ This operation initiates a multipart upload and returns an upload ID. This uploa
 | SSECustomerKeyMD5      | String     | Optional: Specifies the base64-encoded 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
 | SSEKMSKeyId            | String     | Optional: If the x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
 | serverSideEncryption   | String     | Optional: Specifies a server-side encryption algorithm to use when Amazon S3 creates an object. Valid Value: aws:kms, AES256
-| storageClass           | String     | Optional: If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes. Valid Values: STANDARD | STANDARD_IA | REDUCED_REDUNDANCY
+| storageClass           | String     | Optional: If you don't specify, Standard is the default storage class. Amazon S3 supports other storage classes. Valid Values: STANDARD \| STANDARD_IA \| REDUCED_REDUNDANCY
 | websiteRedirectLocation| String     | Optional: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL.
 
 #### metadata format
-```json
+```
 ['meta1', 'meta2']
 ```
 
