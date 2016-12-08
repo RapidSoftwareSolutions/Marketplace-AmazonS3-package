@@ -1,5 +1,5 @@
 # AmazonS3 Package
-Amazon Simple Storage Service (Amazon S3), provides developers and IT teams with secure, durable, highly-scalable cloud storage.
+Store and retrieve data at any time from the web.
 * Domain: amazon.com
 * Credentials: apiKey, apiSecret
 
