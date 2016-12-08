@@ -723,7 +723,7 @@ This endpoint allows to restore a temporary copy of an archived object. You can 
 | bucketName| String     | Required: The name of bucket.
 | objectName| String     | Required: The name of the object to be retrieved.
 | days      | String     | Required: Lifetime of the restored (active) copy. The minimum number of days that you can restore an object from Amazon Glacier is 1. After the object copy reaches the specified lifetime, Amazon S3 removes the copy from the bucket.
-| tier      | String     | Required: The retrieval option to use when restoring the archive. Standard is the default. Valid values: Expedited | Standard | Bulk
+| tier      | String     | Required: The retrieval option to use when restoring the archive. Standard is the default. Valid values: Expedited, Standard, Bulk
 | versionId | String     | Optional: version ID to restore specific object version.
 
 
@@ -738,7 +738,7 @@ This endpoint allows to add an object to a bucket.
 | bucketName             | String     | Required: The name of bucket.
 | objectName             | String     | Required: The name of the object to be retrieved.
 | objectBody             | File       | Required: File to be uploaded to the bucket.
-| acl                    | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private | public-read | public-read-write | aws-exec-read | authenticated-read | bucket-owner-read | bucket-owner-full-control
+| acl                    | String     | Optional: The canned ACL to apply to the object. Default: private. Valid Values: private, public-read, public-read-write, aws-exec-read, authenticated-read, bucket-owner-read, bucket-owner-full-control
 | cacheControl           | String     | Optional: Can be used to specify caching behavior along the request/reply chain. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
 | contentDisposition     | String     | Optional: Specifies presentational information for the object. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
 | contentEncoding        | String     | Optional: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11.
@@ -840,7 +840,7 @@ This operation enables you to delete multiple objects from a bucket using a sing
 | bucketName| String     | Required: The name of bucket.
 | objects   | JSON       | Required: Array of objects. Container element that describes the delete request for an object. See README for more details.
 | MFA       | String     | Optional: The value is the concatenation of the authentication device's serial number, a space, and the value displayed on your authentication device. Default: None. Condition: Required to permanently delete a versioned object if versioning is configured with MFA Delete enabled.
-| quiet     | String     | Optional: Element to enable quiet mode for the request. When you add this element, you must set its value to true. true || false
+| quiet     | String     | Optional: Element to enable quiet mode for the request. When you add this element, you must set its value to true. true OR false
 
 #### objects format
 ```
