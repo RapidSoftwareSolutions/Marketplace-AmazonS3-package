@@ -352,7 +352,7 @@ Sets the cors configuration for your bucket. If the configuration exists, Amazon
     ]
 }
 ```
-<a name="putBucketLifecycleConfiguration"/>
+
 ## AmazonS3.putBucketLifecycleConfiguration
 Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration.
 
