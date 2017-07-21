@@ -1443,7 +1443,7 @@
                     "required": true
                 }, {
                     "name": "objectBody",
-                    "type": "String",
+                    "type": "File",
                     "info": "File to be uploaded to the bucket.",
                     "required": true
                 }, {
