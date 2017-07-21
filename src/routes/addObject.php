@@ -1,4 +1,6 @@
 <?php
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\CachingStream;
 
 $app->post('/api/AmazonS3/addObject', function ($request, $response, $args) {
     
@@ -20,7 +22,9 @@ $app->post('/api/AmazonS3/addObject', function ($request, $response, $args) {
     
     $body['Bucket'] = $post_data['args']['bucketName'];
     $body['Key'] = $post_data['args']['objectName'];
-    $body['Body'] = $post_data['args']['objectBody'];
+    $body['Body'] = new CachingStream(
+        new Stream(fopen($post_data['args']['objectBody'], 'r'))
+    );
     if(!empty($post_data['args']['acl'])) {
         $body['ACL'] = $post_data['args']['acl'];
     }
