@@ -9,14 +9,6 @@
         "domain": "amazon.com",
         "credentials": ["apiKey", "apiSecret"]
     },
-    "steps": [
-        "Go to Amazon Console (https://console.aws.amazon.com/console/home)",
-        "Log in or create new account",
-        "In the dropdown from your username, select 'My Security Credentials'",
-        "On the left side, select 'Groups' and create a new Group with the necessary polices",
-        "Create new user and assign to existing group",
-        "After creating user you will see credentials",
-    ],
     "blocks": [{
             "name": "getBuckets",
             "description": "This endpoint returns a list of all buckets owned by the authenticated sender of the request.",
