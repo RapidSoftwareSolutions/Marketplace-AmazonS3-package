@@ -9,9 +9,10 @@ Store and retrieve data at any time from the web.
 ## How to get credentials: 
 0. Go to [Amazon Console](https://console.aws.amazon.com/console/home?region=us-east-1)
 1. Log in or create new account
-2. Create new group in Groups section at the left side with necessary polices
-3. Create new user and assign to existing group
-4. After creating user you will see credentials
+2. In the dropdown from your username, select 'My Security Credentials'
+3. On the left side, select 'Groups' and create a new Group with the necessary polices
+4. Create new user and assign to existing group
+5. After creating user you will see credentials
 
 
 ## AmazonS3.getBuckets
