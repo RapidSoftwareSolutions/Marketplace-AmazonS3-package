@@ -14,6 +14,15 @@ Store and retrieve data at any time from the web.
 4. Create new user and assign to existing group
 5. After creating user you will see credentials
 
+## Custom datatypes: 
+ |Datatype|Description|Example
+ |--------|-----------|----------
+ |Datepicker|String which includes date and time|```2016-05-28 00:00:00```
+ |Map|String which includes latitude and longitude coma separated|```50.37, 26.56```
+ |List|Simple array|```["123", "sample"]``` 
+ |Select|String with predefined values|```sample```
+ |Array|Array of objects|```[{"Second name":"123","Age":"12","Photo":"sdf","Draft":"sdfsdf"},{"name":"adi","Second name":"bla","Age":"4","Photo":"asfserwe","Draft":"sdfsdf"}] ```
+
 
 ## AmazonS3.getBuckets
 This endpoint returns a list of all buckets owned by the authenticated sender of the request.
